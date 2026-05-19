@@ -1,6 +1,7 @@
 const AppError = require("../utils/AppError");
 const { Ticket, Comment, User } = require("../models");
 const { getIO } = require("../socket");
+const { getChannel } = require( "../config/rabbitmq");
 
 // GET all tickets
 exports.getAllTickets = async (user,query) => {
@@ -45,8 +46,19 @@ exports.createTicket = async (data) => {
     message: "New ticket created",
     ticket,
   }
-);
+  );
 
+  const channel = getChannel();
+  const queue = "ticket_created";
+
+  await channel.assertQueue(queue);
+
+  channel.sendToQueue(
+    queue,
+    Buffer.from(
+      JSON.stringify(ticket)
+    )
+  );
   return ticket
 
 };

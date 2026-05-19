@@ -7,6 +7,9 @@ const Comment = sequelize.define("Comment", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  attachment: {
+  type: DataTypes.STRING,
+  },
 
 });
 
