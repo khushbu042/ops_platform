@@ -1,3 +1,15 @@
+/**
+ * @swagger
+ * /api/tickets:
+ *   get:
+ *     summary:
+ *       Get all tickets
+ *     responses:
+ *       200:
+ *         description:
+ *           List of tickets
+ */
+
 const express = require("express");
 const router = express.Router();
 

@@ -4,6 +4,8 @@ const routes = require("./routes");
 const errorMiddleware = require("./middleware/error.middleware");
 const { RedisStore } = require("connect-redis");
 const redisClient = require("./config/redis");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
 
 const app = express();
 
@@ -30,6 +32,8 @@ app.use( session({
 app.get("/health", (req, res) => {
   res.json({ status: "OK" });
 });
+
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
 // routes middleware
 app.use("/api", routes);

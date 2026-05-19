@@ -3,20 +3,29 @@ const amqp = require("amqplib");
 let channel;
 
 exports.connectRabbitMQ = async () => {
+  try {
+    const connection =
+      await amqp.connect(
+        process.env.RABBITMQ_URL
+      );
 
-    const connection =  await amqp.connect( "amqp://rabbitmq");
-    channel = await connection.createChannel();
+    channel =
+      await connection.createChannel();
 
-    console.log("RabbitMQ Connected" );
-};
+    console.log(
+      "RabbitMQ connected ✅"
+    );
+  } catch (error) {
+    console.log(
+      "RabbitMQ connection failed:",
+      error.message
+    );
 
-exports.getChannel = () => {
-
-  if (!channel) {
-    throw new Error(
-      "RabbitMQ channel not initialized"
+    setTimeout(
+      exports.connectRabbitMQ,
+      5000
     );
   }
-
-  return channel;
 };
+
+exports.getChannel = () => channel;

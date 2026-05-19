@@ -1,11 +1,13 @@
-version: '3.3'
+version: "3.3"
 
 services:
 
   backend:
     build: .
     ports:
-      - "5000:5000"
+      - "3000:3000"
+    env_file:
+      - .env
 
     depends_on:
       - postgres
@@ -14,8 +16,17 @@ services:
 
     environment:
       DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ops_platform
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+
       REDIS_HOST: redis
+
       RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+
+    command: npm run dev
 
   postgres:
     image: postgres:15
