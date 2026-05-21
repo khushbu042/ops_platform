@@ -25,7 +25,11 @@ services:
 
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-
+    
+    volumes:
+      - .:/app
+      - /app/node_modules
+      
     command: npm run dev
 
   postgres:
